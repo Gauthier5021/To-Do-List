@@ -17,16 +17,23 @@
 
       <!-- Le Formulaire To Do List -->
         <section>
-          <form action="AllFile.php">
-            <div>
-              <input type="text" class="TextList" name="TextList" />
-              <input type="submit" class="Bouton" name="Bouton" Value="+" />
+          <form action="ToDo.php" method="POST" class="Formulaire">
+            <div class="InputText">
+              <input type="text" class="Nom" name="Nom" placeholder="Votre Nom" /><br />
+              <label><input type="date" class="Date1" name="Date1" />Aux</label><input type="date" class="Date2" name="Date2" /><br />
+              <input type="text" class="TextList" name="TextList" placeholder="Votres Taches" />
+              <input type="submit" class="Bouton" name="Bouton" Value="Ajouter" />
             </div>
+        <!-- Résultat seront mis ici une fois le php bien développer. -->   
+            <div class="Result">
+              <ul class="SousTitre">
+                <li>Taches</li>
+                <li>Status</li>
+                <li>Action</li>
+              </ul>
+            </div> 
           </form>
         </section>
-
-       <!-- Tous le reste des fichier PHP --> 
-        <?php include("list.php"); ?>
 
       </body>
 
