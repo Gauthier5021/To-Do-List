@@ -36,6 +36,9 @@
                 <li>Status</li>
                 <li>Action</li>
               </ul>
+            </div>
+            <div class="DelList">
+              <input type="submit" class="BoutonDel" name="BoutonDel" value="Supprimer les taches" />
             </div> 
           </form>
         </section>
