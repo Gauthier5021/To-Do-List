@@ -1,0 +1,46 @@
+body {
+    position: relative;
+    text-align: center;
+    top: 90px;
+}
+.ToDoList {
+    position: relative;
+    top: 30px;
+}
+.Formulaire {
+    position: relative;
+}
+.Condition {
+    position: relative;
+    bottom: 20px;
+}
+.InputText {
+    position: relative;
+    top: 20px;
+}
+.DateDebut {
+    position: relative;
+}
+.DateFin {
+    position: relative;
+}
+.NavBar {
+    position: relative;
+    top: 30px;
+}
+ul {
+    position: relative;
+    list-style-type: none;
+    display: inline;
+
+}
+li {
+    position: relative;
+    display: inline;
+    margin: 10px;
+    top: 60px;
+}
+.BoutonDel {
+    position: relative;
+    top: 20px;
+}
