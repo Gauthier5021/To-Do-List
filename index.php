@@ -16,20 +16,23 @@
         </header>
 
       <!-- Le Formulaire To Do List -->
-        <section>
+        <section class="ToDoList">
           <form action="ToDo.php" method="POST" class="Formulaire">
             <div class="Condition">
               <label>Important :<input type="checkbox" class="Important" name="Important" /></label>
               <label>Moins Important :<input type="checkbox" class="MoinsImportant" name="MoinsImportant" /></label>
+              <input type="text" class="Nom" name="Nom" placeholder="Votre Nom" />
             </div>
             <div class="InputText">
-              <input type="text" class="Nom" name="Nom" placeholder="Votre Nom" /><br />
               <label>Date De Debut :<input type="date" class="DateDebut" name="DateDebut" /></label><br />
-              <label>Date De Fin :<input type="date" class="DateFin" name="DateFin" /></label><br />
+              <label class="DateFin">Date De Fin :<input type="date" class="DateFin" name="DateFin" /></label><br />
               <input type="text" class="TextList" name="TextList" placeholder="Votres Taches" />
               <input type="submit" class="Bouton" name="Bouton" Value="Ajouter" />
             </div>
-            <div class="Result">
+            <div class="NavBar">
+            <div class="DelList">
+              <input type="submit" class="BoutonDel" name="BoutonDel" value="Supprimer les taches" />
+            </div> 
               <ul class="SousTitre">
                 <li>Nom de l'auteur</li>
                 <li>Date de debut et fin</li>
@@ -37,9 +40,6 @@
                 <li>Action</li>
               </ul>
             </div>
-            <div class="DelList">
-              <input type="submit" class="BoutonDel" name="BoutonDel" value="Supprimer les taches" />
-            </div> 
           </form>
         </section>
 
