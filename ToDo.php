@@ -1,79 +1,52 @@
-<?php
+<!DOCTYPE html>
+    <html lang="fr">
 
-/* Objet To do list */
-function AddToDoList()
-{
-        /* La base de données avec la table */
-    $Bdd = "mysql:host=localhost;dbname=autosun;charset=utf8";
-    $ListeImportante = "Liste_importante";
-    $ListeNonUrgente = "Liste_non_importante";
-    $User = "root";
-    $Password = "root";
+      <head>
+       <meta name="author" content="BARAS Gauthier" />
+       <meta charset="utf-8" />
+       <link href="index.css" rel="stylesheet" />
+       <title>To Do List</title>
+      </head>
 
-    /* La connection à la base de données */
-    try
-    {
-        $db = new PDO($Bdd, $User, $Password);
-    }
-    catch (Exception $e)
-    {
-        die('Erreur : ' . $e->getMessage());
-    }
+      <body>
 
-    /* Les formulaires */
-    $Nom = $_POST['Nom'];
-    $DateDeDebut = $_POST['DateDebut'];
-    $DateDeFin = $_POST['DateFin'];
-    $Tache = $_POST['TextList'];
-    $Input = $_POST['Bouton'];
-    $Checkbox = [$_POST['Important'], $_POST['MoinsImportant']];
+        <div class="NavBar">
+          <ul class="SousTitre">
+            <li>Nom de l'auteur</li>
+            <li>Date de debut</li>
+            <li>Date de fin</li>
+            <li>Action</li>
+            <li>Status</li>
+          </ul>
+        </div>
+        
+      <!-- La tete du To Do List -->
+        <header class="Heading">
+          <h1 class="TitrePrincipale">TODOLIST</h1><br />
+        </header>
 
-    /* Les conditions logique */
-    if ($Checkbox[0])
-    {
-        $requete = "INSERT INTO $ListeImportante(Nom, DateDeDebut, DateDeFin, Tache) VALUES('$Nom', '$DateDeDebut', '$DateDeFin', '$Tache')";
-        return $db->exec($requete);
-    }
-    elseif ($Checkbox[1])
-    {
-        $requete = "INSERT INTO $ListeNonUrgente(Nom, DateDeDebut, DateDeFin, Tache) VALUES('$Nom', '$DateDeDebut', '$DateDeFin', '$Tache')";
-        return $db->exec($requete);
-    }
-}
+      <!-- Le Formulaire To Do List -->
+        <section class="ToDoList">
+          <form action="index.php" method="POST" class="Formulaire">
+            <div class="Condition">
+              <label class="TitreCheckbox">Important <input type="checkbox" class="Checkbox" name="Important" /></label>
+              <label class="TitreCheckbox">Moins Important <input type="checkbox" class="Checkbox" name="MoinsImportant" /></label>
+              <input type="text" class="Nom" name="Nom" placeholder="Votre Nom Ex. Gauthier " />
+            </div>
+            <div class="InputText">
+              <label class="TitreDateDebut">Date De Debut :<input type="date" class="DateDebut" name="DateDebut" /></label><br />
+              <label class="TitreDateFin">Date De Fin :<input type="date" class="DateFin" name="DateFin" /></label><br />
+              <input type="text" class="TextList" name="TextList" placeholder="Votres Taches" />
+              <input type="submit" class="BoutonAjouter" name="Bouton" Value="Ajouter" />
+            </div>
+            <div class="DelList">
+              <input type="submit" class="BoutonDel" name="BoutonDel" value="Supprimer les taches" />
+            </div> 
+          </form>
+        </section>
 
-function DelToDoList()
-{
-    /* La base de données avec la table */
-    $Bdd = "mysql:host=localhost;dbname=autosun;charset=utf8";
-    $ListeImportante = "Liste_importante";
-    $ListeNonUrgente = "Liste_non_importante";
-    $User = "root";
-    $Password = "root";
+        <?php include("ToDo.php"); ?>
 
-    /* La connection à la base de données */
-    try
-    {
-        $db = new PDO($Bdd, $User, $Password);
-    }
-    catch (Exception $e)
-    {
-        die('Erreur : ' . $e->getMessage());
-    }
+      </body>
 
-    /* Les formulaires */
-    $InputDel = $_POST['BoutonDel'];
-
-    /* Les conditions logique */
-    if ($InputDel)
-    {
-        $requete = "DELETE FROM $ListeImportante; DELETE FROM $ListeNonUrgente";
-        return $db->exec($requete);
-    }
-}
-
-AddToDoList();
-DelToDoList();
-
-?>
-
-<?php include("index.php"); ?>
+    </html>
