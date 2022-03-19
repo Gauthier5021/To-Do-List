@@ -1,52 +1,114 @@
-<!DOCTYPE html>
-    <html lang="fr">
+<?php
 
-      <head>
-       <meta name="author" content="BARAS Gauthier" />
-       <meta charset="utf-8" />
-       <link href="index.css" rel="stylesheet" />
-       <title>To Do List</title>
-      </head>
+/* Objet To do list */
 
-      <body>
+use LDAP\Result;
 
-        <div class="NavBar">
-          <ul class="SousTitre">
-            <li>Nom de l'auteur</li>
-            <li>Date de debut</li>
-            <li>Date de fin</li>
-            <li>Action</li>
-            <li>Status</li>
-          </ul>
-        </div>
-        
-      <!-- La tete du To Do List -->
-        <header class="Heading">
-          <h1 class="TitrePrincipale">TODOLIST</h1><br />
-        </header>
+function AddToDoList()
+{
+        /* La base de données avec la table */
+    $Bdd = "mysql:host=localhost;dbname=autosun;charset=utf8";
+    $ListeImportante = "Liste_importante";
+    $ListeNonUrgente = "Liste_non_importante";
+    $User = "root";
+    $Password = "root";
 
-      <!-- Le Formulaire To Do List -->
-        <section class="ToDoList">
-          <form action="index.php" method="POST" class="Formulaire">
-            <div class="Condition">
-              <label class="TitreCheckbox">Important <input type="checkbox" class="Checkbox" name="Important" /></label>
-              <label class="TitreCheckbox">Moins Important <input type="checkbox" class="Checkbox" name="MoinsImportant" /></label>
-              <input type="text" class="Nom" name="Nom" placeholder="Votre Nom Ex. Gauthier " />
-            </div>
-            <div class="InputText">
-              <label class="TitreDateDebut">Date De Debut :<input type="date" class="DateDebut" name="DateDebut" /></label><br />
-              <label class="TitreDateFin">Date De Fin :<input type="date" class="DateFin" name="DateFin" /></label><br />
-              <input type="text" class="TextList" name="TextList" placeholder="Votres Taches" />
-              <input type="submit" class="BoutonAjouter" name="Bouton" Value="Ajouter" />
-            </div>
-            <div class="DelList">
-              <input type="submit" class="BoutonDel" name="BoutonDel" value="Supprimer les taches" />
-            </div> 
-          </form>
-        </section>
+    /* La connection à la base de données */
+    try
+    {
+        $db = new PDO($Bdd, $User, $Password);
+    }
+    catch (Exception $e)
+    {
+        die('Erreur : ' . $e->getMessage());
+    }
 
-        <?php include("ToDo.php"); ?>
+    /* Les formulaires */
+    $Nom = $_POST['Nom'];
+    $DateDeDebut = $_POST['DateDebut'];
+    $DateDeFin = $_POST['DateFin'];
+    $Tache = $_POST['TextList'];
+    $Input = $_POST['Bouton'];
+    $Checkbox = [$_POST['Important'], $_POST['MoinsImportant']];
 
-      </body>
+    /* Les conditions logique */
+    if ($Checkbox[0])
+    {
+        $requete = "INSERT INTO $ListeImportante(Nom, DateDeDebut, DateDeFin, Tache, Statu) VALUES('$Nom', '$DateDeDebut', '$DateDeFin', '$Tache', 'Important')";
+        return $db->exec($requete);
+    }
+    elseif ($Checkbox[1])
+    {
+        $requete = "INSERT INTO $ListeNonUrgente(Nom, DateDeDebut, DateDeFin, Tache, MoinsImportant) VALUES('$Nom', '$DateDeDebut', '$DateDeFin', '$Tache', 'Moins Important')";
+        return $db->exec($requete);
+    }
+}
 
-    </html>
+function DelToDoList()
+{
+    /* La base de données avec la table */
+    $Bdd = "mysql:host=localhost;dbname=autosun;charset=utf8";
+    $ListeImportante = "Liste_importante";
+    $ListeNonUrgente = "Liste_non_importante";
+    $User = "root";
+    $Password = "root";
+
+    /* La connection à la base de données */
+    try
+    {
+        $db = new PDO($Bdd, $User, $Password);
+    }
+    catch (Exception $e)
+    {
+        die('Erreur : ' . $e->getMessage());
+    }
+
+    /* Les formulaires */
+    $InputDel = $_POST['BoutonDel'];
+
+    /* Les conditions logique */
+    if ($InputDel)
+    {
+        $requete = "DELETE FROM $ListeImportante; DELETE FROM $ListeNonUrgente";
+        return $db->exec($requete);
+    }
+}
+function Result()
+{
+        /* La base de données avec la table */
+    $Bdd = "mysql:host=localhost;dbname=autosun;charset=utf8";
+    $ListeImportante = "Liste_importante";
+    $ListeNonUrgente = "Liste_non_importante";
+    $User = "root";
+    $Password = "root";
+
+    try
+    {
+        $db = new PDO($Bdd, $User, $Password);
+    }
+    catch (Exception $e)
+    {
+        die('Erreur : ' . $e->getMessage());
+    }
+
+    $TacheImportante = "SELECT Nom, DateDeDebut, DateDeFin, Tache, Statu FROM $ListeImportante";
+    $TacheMoinsImportante = "SELECT * FROM $ListeNonUrgente";
+
+    $RequeteSql = $db->query($TacheImportante);
+    
+    while ($Result = $RequeteSql->fetch())
+    {
+        return $Result['Nom'] . " " . $Result['DateDeDebut'] . " " . $Result['DateDeFin'] . " " . $Result['Tache'] . " " . $Result['Statu'];
+    }
+}
+
+/* Execution des trois fonction */
+AddToDoList();
+
+DelToDoList();
+
+?>
+
+<div class="Resultat">
+    <p class="TextResult"><?php echo Result(); ?><p>
+</div>
